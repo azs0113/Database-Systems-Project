@@ -1,0 +1,59 @@
+select Title from Books where Quantity>10;
+
+
+select a.Title as Book_Name from Books a, Suppliers b where a.SupplierID= b.SupplierID and b.CompanyName = "supplier1";
+
+
+select c.CategoryName as Subject_Name from Books a, Suppliers b, Subjects c where c.SubjectID = a.SubjectID and a.SupplierID= b.SupplierID and b.CompanyName = "supplier2";
+
+
+select a.Title as Book_Name, a.UnitPrice from Books a where a.UnitPrice =(select MAX(a.UnitPrice) from Books a,Suppliers b where a.SupplierID= b.SupplierID and b.CompanyName = "supplier3");
+
+
+select DISTINCT(a.Title) from Books a, OrderDetails b, Orders c, Customers d where a.BookID = b.BookID and b.OrderID = c.OrderID and c.CustomerID = d.CustomerID and d.LastName = "lastname1" and d.FirstName = "firstname1";
+
+
+select d.LastName,d.FirstName, SUM(a.UnitPrice) as Total_Price from Books a, OrderDetails b, Orders c, Customers d where a.BookID = b.BookID and b.OrderID = c.OrderID and c.CustomerID = d.CustomerID and d.LastName = "lastname1" and d.FirstName = "firstname1" group by d.LastName,d.FirstName;
+
+
+select d.LastName,d.FirstName, SUM(a.UnitPrice) as Total_Price from Books a, OrderDetails b, Orders c, Customers d where a.BookID = b.BookID and b.OrderID = c.OrderID and c.CustomerID = d.CustomerID group by d.LastName,d.FirstName having SUM(a.UnitPrice)<80;
+
+
+select d.LastName,d.FirstName, SUM(a.UnitPrice) as Total_Price from Books a, OrderDetails b, Orders c, Customers d where a.BookID = b.BookID and b.OrderID = c.OrderID and c.CustomerID = d.CustomerID group by d.LastName,d.FirstName order by Total_Price DESC;
+
+
+select a.Title, d.ShipperName from Books a, OrderDetails b, Orders c, Shippers d where a.BookID= b.BookID and b.OrderID = c.OrderID and c.ShipperID = d.ShipperID and c.ShippedDate = "2014-08-04";
+
+
+select DISTINCT(a.Title) from Books a, OrderDetails b, Orders c, Employees d where a.BookID=b.BookID and b.OrderID=c.OrderID and c.EmployeeID = d.EmployeeID and d.LastName = "lastname6" and d.FirstName = "firstname6";
+
+
+select DISTINCT(a.Title) from Books a, OrderDetails b1, Orders c1, Customers d1, OrderDetails b2, Orders c2, Customers d2 where a.BookID = b1.BookID and b1.OrderID = c1.OrderID and c1.CustomerID = d1.CustomerID and d1.LastName = "lastname1" and d1.FirstName = "firstname1" and a.BookID = b2.BookID and b2.OrderID = c2.OrderID and c2.CustomerID = d2.CustomerID and d2.LastName = "lastname4" and d2.FirstName = "firstname4";
+
+
+select a.Title, b.BookID, SUM(b.Quantity) as Total_Quantity from Books a, OrderDetails b where a.BookID = b.BookID group by b.BookID order by Total_Quantity;
+
+
+select a.LastName,a.FirstName, SUM(c.Quantity) as Books_Ordered from Customers a, Orders b, OrderDetails c where a.CustomerID = b.CustomerID and b.OrderID = c.OrderID group by a.FirstName,a.LastName having Books_Ordered >=3;  
+
+
+select DISTINCT(d.LastName),d.FirstName from Books a, OrderDetails b, Orders c, Customers d where a.BookID = b.BookID and b.OrderID = c.OrderID and c.CustomerID = d.CustomerID and a.Author = "author1"; 
+
+
+select d.LastName,d.FirstName, e.CategoryName, a.Title from Books a, OrderDetails b, Orders c, Customers d, Subjects e where a.BookID = b.BookID and b.OrderID = c.OrderID and c.CustomerID = d.CustomerID and a.SubjectID = e.SubjectID and e.CategoryName = "category3" UNION select d2.LastName,d2.FirstName, e2.CategoryName, a2.Title from Books a2, OrderDetails b2, Orders c2, Customers d2, Subjects e2 where a2.BookID = b2.BookID and b2.OrderID = c2.OrderID and c2.CustomerID = d2.CustomerID and a2.SubjectID = e2.SubjectID and e2.CategoryName = "category4";
+
+
+select CategoryName, MIN(UnitPrice) as Cheapest_Price from Books a, Subjects b where a.SubjectID = b.SubjectID group by CategoryName;   
+
+
+select d.LastName, d.FirstName, SUM(b.Quantity* a.UnitPrice) as Total_Sales from Books a, OrderDetails b, Orders c, Employees d where a.BookID=b.BookID and b.OrderID=c.OrderID and c.EmployeeID = d.EmployeeID group by d.LastName, d.FirstName;
+
+
+select a.Title, SUM(b.Quantity) as Quantity_not_shipped from Books a, OrderDetails b, Orders c where a.BookID= b.BookID and b.OrderID = c.OrderID and ShippedDate > "2014-08-04" group by a.Title ;
+
+
+select d.LastName,d.FirstName, SUM(b.Quantity) as Quantities from Books a, OrderDetails b, Orders c, Customers d where a.BookID = b.BookID and b.OrderID = c.OrderID and c.CustomerID = d.CustomerID group by d.LastName,d.FirstName having Quantities >1;  
+
+
+select d.LastName,d.FirstName, SUM(b.Quantity) as Quantities, d.Phone  from Books a, OrderDetails b, Orders c, Customers d where a.BookID = b.BookID and b.OrderID = c.OrderID and c.CustomerID = d.CustomerID group by d.LastName,d.FirstName having Quantities >3;  
+ 
