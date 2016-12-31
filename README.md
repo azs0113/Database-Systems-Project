@@ -1,4 +1,4 @@
-# Database-Systems-Project
+# Online-Bookstore-Application
 Online Bookstore System
 
 A Web-based application with a user interface and backend database allowing users to view the book collection, perform custom-search, add them to cart and buy them.
